@@ -59,3 +59,15 @@ stamp-*
 /mpc*
 /gmp*
 /isl*
+
+# ignore Vim-related files
+*.vim
+*.swp
+*~
+
+# ignore KDE-related files
+.directory
+
+# ignore ctags files
+tags
+.tags
