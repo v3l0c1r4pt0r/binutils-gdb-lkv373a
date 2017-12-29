@@ -173,6 +173,7 @@ hppa*)		 targ_archs=bfd_hppa_arch ;;
 i[3-7]86)	 targ_archs=bfd_i386_arch ;;
 i370)		 targ_archs=bfd_i370_arch ;;
 ia16)		 targ_archs=bfd_i386_arch ;;
+lkv373a)	 targ_archs=bfd_lkv373a_arch ;;
 lm32)	         targ_archs=bfd_lm32_arch ;;
 m6811*|m68hc11*) targ_archs="bfd_m68hc11_arch bfd_m68hc12_arch bfd_m9s12x_arch bfd_m9s12xg_arch" ;;
 m6812*|m68hc12*) targ_archs="bfd_m68hc12_arch bfd_m68hc11_arch bfd_m9s12x_arch bfd_m9s12xg_arch" ;;
@@ -922,6 +923,10 @@ case "${targ}" in
 
   iq2000-*-elf)
     targ_defvec=iq2000_elf32_vec
+    ;;
+
+  lkv373a*-*)
+    targ_defvec=lkv373a_elf32_vec
     ;;
 
   lm32-*-elf | lm32-*-rtems*)
