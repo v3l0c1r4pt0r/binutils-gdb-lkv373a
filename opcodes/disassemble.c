@@ -50,6 +50,7 @@
 #define ARCH_ia64
 #define ARCH_ip2k
 #define ARCH_iq2000
+#define ARCH_lkv373a
 #define ARCH_lm32
 #define ARCH_m32c
 #define ARCH_m32r
@@ -249,6 +250,11 @@ disassembler (enum bfd_architecture a,
 #ifdef ARCH_fr30
     case bfd_arch_fr30:
       disassemble = print_insn_fr30;
+      break;
+#endif
+#ifdef ARCH_lkv373a
+    case bfd_arch_lkv373a:
+      disassemble = print_insn_lkv373a;
       break;
 #endif
 #ifdef ARCH_lm32
