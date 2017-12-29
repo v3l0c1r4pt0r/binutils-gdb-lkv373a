@@ -430,6 +430,9 @@
 /* Old constant that might be in use by some software. */
 #define EM_OPENRISC		EM_OR1K
 
+/* LKV373A architecture */
+#define EM_LKV373A		0x373a
+
 /* See the above comment before you add a new EM_* value here.  */
 
 /* Values for e_version.  */
