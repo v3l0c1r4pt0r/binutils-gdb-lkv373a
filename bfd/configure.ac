@@ -17,6 +17,7 @@ dnl along with this program; see the file COPYING3.  If not see
 dnl <http://www.gnu.org/licenses/>.
 dnl
 
+m4_define([_GCC_AUTOCONF_VERSION], [2.69])
 AC_PREREQ(2.59)
 m4_include([version.m4])
 AC_INIT([bfd], BFD_VERSION)
