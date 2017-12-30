@@ -24,22 +24,71 @@
 #define LKV373A_OPC
 
 
+/* opcode is always first 6 bits */
+#define OPCODE_MASK 0xfc000000
+#define OPCODE_SHIFT 26
+
+/* J-type immediate is 26 bits after opcode */
+#define IMM_J_MASK 0x3ffffff
+#define IMM_J_SHIFT 0
+
+/* if unknown, no extraction takes place */
+#define EMPTY_MASK 0
+#define EMPTY_SHIFT 0
+
 typedef enum {
   wrong_op = -1,
   jmp = 0x0,
   call = 0x1,
   op_2 = 0x2,
+  j_ = 0x3,
+  jg = 0x4,
+  op_5 = 0x5,
   first_invalid_opcode
 } opcode_t;
 
+typedef enum {
+  instr_type_r,
+  instr_type_i,
+  instr_type_j,
+  first_invalid_type
+} instr_type_t;
+
 typedef struct {
-  opcode_t op;
-  int imm;
+  uint32_t mask;
+  uint32_t shift;
+} argument_t;
+
+typedef struct {
+  opcode_t opcode;
+  char name[7]; /* max name len plus one */
+  instr_type_t type;
+  const argument_t *rd;
+  const argument_t *rs;
+  const argument_t *rb;
+  const argument_t *imm;
+} insn_descr_t;
+
+typedef struct {
+  opcode_t op; /* opcode */
+  short rd; /* destination */
+  short rs; /* source */
+  short rb; /* base */
+  int imm; /* immediate: either value, offset or instruction count */
+  instr_type_t type;
+  insn_descr_t *descr; /* opcode description */
 } instruction_t;
 
 typedef struct {
   uint32_t regs[32]; /* values of all 32 CPU registers */
 } cpu_status_t;
+
+extern const argument_t rd_r, rs_r, rb_r, imm_r;
+extern const argument_t rd_i, rs_i, rb_i, imm_i;
+extern const argument_t rd_j, rs_j, rb_j, imm_j;
+extern const argument_t rd_u, rs_u, rb_u, imm_u;
+
+extern insn_descr_t opcodes[];
 
 #endif /* LKV373A_OPC */
 

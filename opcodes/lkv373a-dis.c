@@ -94,3 +94,39 @@ insn_to_op_struct(uint32_t instr)
   };
   return insn;
 }
+
+/* extraction params for R-type instructions */
+const argument_t rd_r = {EMPTY_MASK, EMPTY_SHIFT};
+const argument_t rs_r = {EMPTY_MASK, EMPTY_SHIFT};
+const argument_t rb_r = {EMPTY_MASK, EMPTY_SHIFT};
+const argument_t imm_r = {EMPTY_MASK, EMPTY_SHIFT};
+
+/* extraction params for I-type instructions */
+const argument_t rd_i = {EMPTY_MASK, EMPTY_SHIFT};
+const argument_t rs_i = {EMPTY_MASK, EMPTY_SHIFT};
+const argument_t rb_i = {EMPTY_MASK, EMPTY_SHIFT};
+const argument_t imm_i = {EMPTY_MASK, EMPTY_SHIFT};
+
+/* extraction params for J-type instructions */
+const argument_t rd_j = {EMPTY_MASK, EMPTY_SHIFT};
+const argument_t rs_j = {EMPTY_MASK, EMPTY_SHIFT};
+const argument_t rb_j = {EMPTY_MASK, EMPTY_SHIFT};
+const argument_t imm_j = {IMM_J_MASK, IMM_J_SHIFT};
+
+/* extraction params for unknown instructions */
+const argument_t rd_u = {EMPTY_MASK, EMPTY_SHIFT};
+const argument_t rs_u = {EMPTY_MASK, EMPTY_SHIFT};
+const argument_t rb_u = {EMPTY_MASK, EMPTY_SHIFT};
+const argument_t imm_u = {EMPTY_MASK, EMPTY_SHIFT};
+
+insn_descr_t opcodes[] = {
+  /* {enum, name, type, rd_mask, rd_shift} */
+  /* 00 */ {jmp, "jmp", instr_type_j, &rd_j, &rs_j, &rb_j, &imm_j},
+  /* 01 */ {call, "call", instr_type_j, &rd_j, &rs_j, &rb_j, &imm_j},
+  /* 02 */ {op_2, "unk2", first_invalid_type, &rd_u, &rs_u, &rb_u, &imm_u},
+  /* 04 */ {j_, "j?", first_invalid_type, &rd_u, &rs_u, &rb_u, &imm_u},
+  /* 04 */ {jg, "jg", first_invalid_type, &rd_u, &rs_u, &rb_u, &imm_u},
+  /* 05 */ {op_5, "unk5", first_invalid_type, &rd_u, &rs_u, &rb_u, &imm_u},
+// /* xx */ {op_x, "unkX", first_invalid_type, &rd_u, &rs_u, &rb_u, &imm_u},
+  {wrong_op, ".dword", first_invalid_type, &rd_u, &rs_u, &rb_u, &imm_u}
+};
