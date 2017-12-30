@@ -26,6 +26,8 @@
 
 #include "disassemble.h"
 #include <strings.h>
+#include <stdint.h>
+#include <endian.h>
 #include "lkv373a-opc.h"
 #include "lkv373a-dis.h"
 
@@ -36,7 +38,59 @@ print_insn_lkv373a (bfd_vma memaddr, struct disassemble_info * info)
 {
   fprintf_ftype       print = info->fprintf_func;
   void *              fd = info->stream;
+  uint8_t             instr_buf[4];
+  uint32_t            instr;
+  instruction_t       op;
+  cpu_status_t *      cpu = NULL;
+  int                 err = 0;
+
+  /* last 16 bits are often immediate, o might be usefule to split */
+  info->bytes_per_chunk = 2;
+
+  /* status of the CPU is preserved between calls, so data addresses can be
+   * determined */
+  if (info->private_data == NULL)
+  {
+    /* allocate status structure */
+    info->private_data = (cpu_status_t*) malloc(sizeof(cpu_status_t));
+    memset(info->private_data, 0, sizeof(cpu_status_t));
+  }
+  cpu = (cpu_status_t*) info->private_data;
+
+  /* read, convert to int and parse instruction */
+  err = info->read_memory_func(memaddr, instr_buf, 4, info);
+  if (err != 0)
+  {
+    info->memory_error_func(err, memaddr, info);
+  }
+  instr = insn_arr_to_int(instr_buf);
+  op = insn_to_op_struct(instr);
+
+  /* update state of CPU */
+  cpu->regs[0] = 0; /* dummy line to supress error */
+
+  /* print decoded opcode */
+  print(fd, ".dword 0x%04X", instr);
+  op.op = op.op; /* dummy line to supress error */
 
   /* Say how many bytes we consumed.  */
   return 4;
+}
+
+int
+insn_arr_to_int(uint8_t *array)
+{
+  uint32_t * arr32 = (uint32_t*) array;
+
+  return htobe32(arr32[0]);
+}
+
+instruction_t
+insn_to_op_struct(uint32_t instr)
+{
+  instruction_t insn = {
+    .op = wrong_op,
+    .imm = instr
+  };
+  return insn;
 }

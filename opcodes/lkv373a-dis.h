@@ -26,6 +26,10 @@
 extern "C" {
 #endif
 
+#include "lkv373a-opc.h"
+
+int insn_arr_to_int(uint8_t *array);
+instruction_t insn_to_op_struct(uint32_t instr);
 
 #ifdef __cplusplus
 }

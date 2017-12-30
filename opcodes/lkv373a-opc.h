@@ -24,6 +24,22 @@
 #define LKV373A_OPC
 
 
+typedef enum {
+  wrong_op = -1,
+  jmp = 0x0,
+  call = 0x1,
+  op_2 = 0x2,
+  first_invalid_opcode
+} opcode_t;
+
+typedef struct {
+  opcode_t op;
+  int imm;
+} instruction_t;
+
+typedef struct {
+  uint32_t regs[32]; /* values of all 32 CPU registers */
+} cpu_status_t;
 
 #endif /* LKV373A_OPC */
 
