@@ -70,7 +70,14 @@ print_insn_lkv373a (bfd_vma memaddr, struct disassemble_info * info)
   cpu->regs[0] = 0; /* dummy line to supress error */
 
   /* print decoded opcode */
-  print(fd, ".dword 0x%04X", instr);
+  switch (op.type)
+  {
+    case instr_type_j:
+      print(fd, "%s $pc+(%x*4)", op.descr->name, op.imm);
+      break;
+    default:
+      print(fd, "%s 0x%04X", op.descr->name, (instr));
+  }
   op.op = op.op; /* dummy line to supress error */
 
   /* Say how many bytes we consumed.  */
@@ -88,10 +95,28 @@ insn_arr_to_int(uint8_t *array)
 instruction_t
 insn_to_op_struct(uint32_t instr)
 {
+  int opcode_int = (instr & OPCODE_MASK) >> OPCODE_SHIFT;
+  int rd_int = -1;
+//int rs_int = -1;
+//int rb_int = -1;
+  insn_descr_t * descr = &opcodes[first_invalid_opcode];
   instruction_t insn = {
     .op = wrong_op,
-    .imm = instr
+    .imm = instr,
+    .descr = descr
   };
+
+  /* if is valid instruction, convert int to enum */
+  if (opcode_int < first_invalid_opcode)
+  {
+    insn.op = (opcode_t) opcode_int;
+    descr = &opcodes[opcode_int];
+    insn.descr = descr;
+    insn.imm = (instr & descr->imm->mask) >> descr->imm->shift;
+  }
+  insn.type = descr->type;
+  rd_int = (instr & descr->rd->mask) >> descr->rd->shift;
+  insn.rd = rd_int;
   return insn;
 }
 
