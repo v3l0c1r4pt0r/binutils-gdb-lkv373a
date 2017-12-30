@@ -28,6 +28,22 @@
 #define OPCODE_MASK 0xfc000000
 #define OPCODE_SHIFT 26
 
+/* R-type destination is 5 bits after opcode */
+#define RD_R_MASK 0x3e00000
+#define RD_R_SHIFT 21
+
+/* R-type source is 5 bits after destination */
+#define RS_R_MASK 0x1f0000
+#define RS_R_SHIFT 16
+
+/* R-type base is 5 bits after source */
+#define RB_R_MASK 0xf800
+#define RB_R_SHIFT 11
+
+/* R-type immediate is 11 bits after base */
+#define IMM_R_MASK 0x7ff
+#define IMM_R_SHIFT 0
+
 /* J-type immediate is 26 bits after opcode */
 #define IMM_J_MASK 0x3ffffff
 #define IMM_J_SHIFT 0

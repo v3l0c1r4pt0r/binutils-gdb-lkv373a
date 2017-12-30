@@ -72,6 +72,9 @@ print_insn_lkv373a (bfd_vma memaddr, struct disassemble_info * info)
   /* print decoded opcode */
   switch (op.type)
   {
+    case instr_type_r:
+      print(fd, "%s $%d, $%d, $%d, 0x%x", op.descr->name, op.rd, op.rs, op.rb, op.imm);
+      break;
     case instr_type_j:
       print(fd, "%s $pc+(%x*4)", op.descr->name, op.imm);
       break;
@@ -96,9 +99,6 @@ instruction_t
 insn_to_op_struct(uint32_t instr)
 {
   int opcode_int = (instr & OPCODE_MASK) >> OPCODE_SHIFT;
-  int rd_int = -1;
-//int rs_int = -1;
-//int rb_int = -1;
   insn_descr_t * descr = &opcodes[first_invalid_opcode];
   instruction_t insn = {
     .op = wrong_op,
@@ -112,19 +112,22 @@ insn_to_op_struct(uint32_t instr)
     insn.op = (opcode_t) opcode_int;
     descr = &opcodes[opcode_int];
     insn.descr = descr;
+    /* imm is extracted only for valid opcodes, otherwise it stores whole
+     * instruction */
     insn.imm = (instr & descr->imm->mask) >> descr->imm->shift;
   }
   insn.type = descr->type;
-  rd_int = (instr & descr->rd->mask) >> descr->rd->shift;
-  insn.rd = rd_int;
+  insn.rd = (instr & descr->rd->mask) >> descr->rd->shift;
+  insn.rs = (instr & descr->rs->mask) >> descr->rs->shift;
+  insn.rb = (instr & descr->rb->mask) >> descr->rb->shift;
   return insn;
 }
 
 /* extraction params for R-type instructions */
-const argument_t rd_r = {EMPTY_MASK, EMPTY_SHIFT};
-const argument_t rs_r = {EMPTY_MASK, EMPTY_SHIFT};
-const argument_t rb_r = {EMPTY_MASK, EMPTY_SHIFT};
-const argument_t imm_r = {EMPTY_MASK, EMPTY_SHIFT};
+const argument_t rd_r = {RD_R_MASK, RD_R_SHIFT};
+const argument_t rs_r = {RS_R_MASK, RS_R_SHIFT};
+const argument_t rb_r = {RB_R_MASK, RB_R_SHIFT};
+const argument_t imm_r = {IMM_R_MASK, IMM_R_SHIFT};
 
 /* extraction params for I-type instructions */
 const argument_t rd_i = {EMPTY_MASK, EMPTY_SHIFT};
