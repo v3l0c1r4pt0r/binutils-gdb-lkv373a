@@ -47,6 +47,9 @@ print_insn_lkv373a (bfd_vma memaddr, struct disassemble_info * info)
   /* last 16 bits are often immediate, o might be usefule to split */
   info->bytes_per_chunk = 2;
 
+  /* one instruction after jump is executed simultaneously */
+  info->branch_delay_insns = 1;
+
   /* status of the CPU is preserved between calls, so data addresses can be
    * determined */
   if (info->private_data == NULL)
