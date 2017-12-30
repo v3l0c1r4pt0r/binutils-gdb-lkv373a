@@ -44,6 +44,18 @@
 #define IMM_R_MASK 0x7ff
 #define IMM_R_SHIFT 0
 
+/* I-type destination is 5 bits after opcode */
+#define RD_I_MASK 0x3e00000
+#define RD_I_SHIFT 21
+
+/* I-type source is 5 bits after destination */
+#define RS_I_MASK 0x1f0000
+#define RS_I_SHIFT 16
+
+/* I-type immediate is 16 bits after source */
+#define IMM_I_MASK 0xffff
+#define IMM_I_SHIFT 0
+
 /* J-type immediate is 26 bits after opcode */
 #define IMM_J_MASK 0x3ffffff
 #define IMM_J_SHIFT 0

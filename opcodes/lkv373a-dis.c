@@ -75,6 +75,9 @@ print_insn_lkv373a (bfd_vma memaddr, struct disassemble_info * info)
     case instr_type_r:
       print(fd, "%s $%d, $%d, $%d, 0x%x", op.descr->name, op.rd, op.rs, op.rb, op.imm);
       break;
+    case instr_type_i:
+      print(fd, "%s $%d, $%d, 0x%x", op.descr->name, op.rd, op.rs, op.imm);
+      break;
     case instr_type_j:
       print(fd, "%s $pc+(%x*4)", op.descr->name, op.imm);
       break;
@@ -130,10 +133,10 @@ const argument_t rb_r = {RB_R_MASK, RB_R_SHIFT};
 const argument_t imm_r = {IMM_R_MASK, IMM_R_SHIFT};
 
 /* extraction params for I-type instructions */
-const argument_t rd_i = {EMPTY_MASK, EMPTY_SHIFT};
-const argument_t rs_i = {EMPTY_MASK, EMPTY_SHIFT};
+const argument_t rd_i = {RD_I_MASK, RD_I_SHIFT};
+const argument_t rs_i = {RS_I_MASK, RS_I_SHIFT};
 const argument_t rb_i = {EMPTY_MASK, EMPTY_SHIFT};
-const argument_t imm_i = {EMPTY_MASK, EMPTY_SHIFT};
+const argument_t imm_i = {IMM_I_MASK, IMM_I_SHIFT};
 
 /* extraction params for J-type instructions */
 const argument_t rd_j = {EMPTY_MASK, EMPTY_SHIFT};
