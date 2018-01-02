@@ -44,6 +44,8 @@ print_insn_lkv373a (bfd_vma memaddr, struct disassemble_info * info)
   cpu_status_t *      cpu = NULL;
   int                 err = 0;
   uint32_t            ref_addr = 0;
+  char *              sign = NULL;
+  unsigned            i = 0;
 
   /* last 16 bits are often immediate, o might be usefule to split */
   info->bytes_per_chunk = 2;
@@ -77,10 +79,16 @@ print_insn_lkv373a (bfd_vma memaddr, struct disassemble_info * info)
   switch (op.type)
   {
     case instr_type_r:
-      print(fd, "%s $%d, $%d, $%d, 0x%x", op.descr->name, op.rd, op.rs, op.rb, op.imm);
+      /* print imm as 'SIGN 0xNUMBER */
+      i = op.imm >= 0 ? op.imm : -op.imm;
+      sign = ((int32_t) op.imm) >= 0 ? "":"-";
+      print(fd, "%s $%d, $%d, $%d, %s0x%x", op.descr->name, op.rd, op.rs, op.rb, sign, i);
       break;
     case instr_type_i:
-      print(fd, "%s $%d, $%d, 0x%x", op.descr->name, op.rd, op.rs, op.imm);
+      /* print imm as 'SIGN 0xNUMBER */
+      i = op.imm >= 0 ? op.imm : -op.imm;
+      sign = ((int32_t) op.imm) >= 0 ? "":"-";
+      print(fd, "%s $%d, $%d, %s0x%x", op.descr->name, op.rd, op.rs, sign, i);
       break;
     case instr_type_j:
       ref_addr = op.imm * 4 + memaddr;
