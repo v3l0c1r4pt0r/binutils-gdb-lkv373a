@@ -43,6 +43,7 @@ print_insn_lkv373a (bfd_vma memaddr, struct disassemble_info * info)
   instruction_t       op;
   cpu_status_t *      cpu = NULL;
   int                 err = 0;
+  uint32_t            ref_addr = 0;
 
   /* last 16 bits are often immediate, o might be usefule to split */
   info->bytes_per_chunk = 2;
@@ -82,7 +83,8 @@ print_insn_lkv373a (bfd_vma memaddr, struct disassemble_info * info)
       print(fd, "%s $%d, $%d, 0x%x", op.descr->name, op.rd, op.rs, op.imm);
       break;
     case instr_type_j:
-      print(fd, "%s $pc+(%x*4)", op.descr->name, op.imm);
+      ref_addr = op.imm * 4 + memaddr;
+      print(fd, "%s $pc+(%d*4)\t// 0x%x", op.descr->name, op.imm, ref_addr);
       break;
     default:
       print(fd, "%s 0x%04X", op.descr->name, (instr));
