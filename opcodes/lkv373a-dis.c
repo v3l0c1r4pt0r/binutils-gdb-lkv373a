@@ -92,7 +92,15 @@ print_insn_lkv373a (bfd_vma memaddr, struct disassemble_info * info)
       break;
     case instr_type_j:
       ref_addr = op.imm * 4 + memaddr;
-      print(fd, "%s $pc+(%d*4)\t// 0x%x", op.descr->name, op.imm, ref_addr);
+      if (info->symbol_at_address_func(ref_addr, info))
+      {
+        print(fd, "%s $pc+(%d*4)\t// ", op.descr->name, op.imm);
+        info->print_address_func(ref_addr, info);
+      }
+      else
+      {
+        print(fd, "%s $pc+(%d*4)\t// %x", op.descr->name, op.imm, ref_addr);
+      }
       break;
     default:
       print(fd, "%s 0x%04X", op.descr->name, (instr));
