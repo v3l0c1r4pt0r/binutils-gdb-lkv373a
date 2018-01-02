@@ -139,13 +139,13 @@ insn_to_op_struct(uint32_t instr)
 const argument_t rd_r = {RD_R_MASK, RD_R_SHIFT, 0, 0};
 const argument_t rs_r = {RS_R_MASK, RS_R_SHIFT, 0, 0};
 const argument_t rb_r = {RB_R_MASK, RB_R_SHIFT, 0, 0};
-const argument_t imm_r = {IMM_R_MASK, IMM_R_SHIFT, EMPTY_SIGNMASK, EMPTY_SIGNEXT};
+const argument_t imm_r = {IMM_R_MASK, IMM_R_SHIFT, IMM_R_SIGNMASK, IMM_R_SIGNEXT};
 
 /* extraction params for I-type instructions */
 const argument_t rd_i = {RD_I_MASK, RD_I_SHIFT, 0, 0};
 const argument_t rs_i = {RS_I_MASK, RS_I_SHIFT, 0, 0};
 const argument_t rb_i = {EMPTY_MASK, EMPTY_SHIFT, 0, 0};
-const argument_t imm_i = {IMM_I_MASK, IMM_I_SHIFT, EMPTY_SIGNMASK, EMPTY_SIGNEXT};
+const argument_t imm_i = {IMM_I_MASK, IMM_I_SHIFT, IMM_I_SIGNMASK, IMM_I_SIGNEXT};
 
 /* extraction params for J-type instructions */
 const argument_t rd_j = {EMPTY_MASK, EMPTY_SHIFT, 0, 0};
