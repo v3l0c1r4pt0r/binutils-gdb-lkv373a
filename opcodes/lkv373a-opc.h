@@ -59,10 +59,14 @@
 /* J-type immediate is 26 bits after opcode */
 #define IMM_J_MASK 0x3ffffff
 #define IMM_J_SHIFT 0
+#define IMM_J_SIGNMASK 0x2000000
+#define IMM_J_SIGNEXT 0xfc000000
 
 /* if unknown, no extraction takes place */
 #define EMPTY_MASK 0
 #define EMPTY_SHIFT 0
+#define EMPTY_SIGNMASK 0
+#define EMPTY_SIGNEXT 0
 
 typedef enum {
   wrong_op = -1,
@@ -143,6 +147,8 @@ typedef enum {
 typedef struct {
   uint32_t mask;
   uint32_t shift;
+  uint32_t signmask; /**< sign mask */
+  uint32_t signext; /**< sign extension */
 } argument_t;
 
 typedef struct {

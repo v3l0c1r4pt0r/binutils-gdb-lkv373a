@@ -121,6 +121,10 @@ insn_to_op_struct(uint32_t instr)
     /* imm is extracted only for valid opcodes, otherwise it stores whole
      * instruction */
     insn.imm = (instr & descr->imm->mask) >> descr->imm->shift;
+    if (insn.imm & descr->imm->signmask)
+    {
+      insn.imm |= descr->imm->signext;
+    }
   }
   insn.type = descr->type;
   insn.rd = (instr & descr->rd->mask) >> descr->rd->shift;
@@ -130,28 +134,28 @@ insn_to_op_struct(uint32_t instr)
 }
 
 /* extraction params for R-type instructions */
-const argument_t rd_r = {RD_R_MASK, RD_R_SHIFT};
-const argument_t rs_r = {RS_R_MASK, RS_R_SHIFT};
-const argument_t rb_r = {RB_R_MASK, RB_R_SHIFT};
-const argument_t imm_r = {IMM_R_MASK, IMM_R_SHIFT};
+const argument_t rd_r = {RD_R_MASK, RD_R_SHIFT, 0, 0};
+const argument_t rs_r = {RS_R_MASK, RS_R_SHIFT, 0, 0};
+const argument_t rb_r = {RB_R_MASK, RB_R_SHIFT, 0, 0};
+const argument_t imm_r = {IMM_R_MASK, IMM_R_SHIFT, EMPTY_SIGNMASK, EMPTY_SIGNEXT};
 
 /* extraction params for I-type instructions */
-const argument_t rd_i = {RD_I_MASK, RD_I_SHIFT};
-const argument_t rs_i = {RS_I_MASK, RS_I_SHIFT};
-const argument_t rb_i = {EMPTY_MASK, EMPTY_SHIFT};
-const argument_t imm_i = {IMM_I_MASK, IMM_I_SHIFT};
+const argument_t rd_i = {RD_I_MASK, RD_I_SHIFT, 0, 0};
+const argument_t rs_i = {RS_I_MASK, RS_I_SHIFT, 0, 0};
+const argument_t rb_i = {EMPTY_MASK, EMPTY_SHIFT, 0, 0};
+const argument_t imm_i = {IMM_I_MASK, IMM_I_SHIFT, EMPTY_SIGNMASK, EMPTY_SIGNEXT};
 
 /* extraction params for J-type instructions */
-const argument_t rd_j = {EMPTY_MASK, EMPTY_SHIFT};
-const argument_t rs_j = {EMPTY_MASK, EMPTY_SHIFT};
-const argument_t rb_j = {EMPTY_MASK, EMPTY_SHIFT};
-const argument_t imm_j = {IMM_J_MASK, IMM_J_SHIFT};
+const argument_t rd_j = {EMPTY_MASK, EMPTY_SHIFT, 0, 0};
+const argument_t rs_j = {EMPTY_MASK, EMPTY_SHIFT, 0, 0};
+const argument_t rb_j = {EMPTY_MASK, EMPTY_SHIFT, 0, 0};
+const argument_t imm_j = {IMM_J_MASK, IMM_J_SHIFT, IMM_J_SIGNMASK, IMM_J_SIGNEXT};
 
 /* extraction params for unknown instructions */
-const argument_t rd_u = {EMPTY_MASK, EMPTY_SHIFT};
-const argument_t rs_u = {EMPTY_MASK, EMPTY_SHIFT};
-const argument_t rb_u = {EMPTY_MASK, EMPTY_SHIFT};
-const argument_t imm_u = {EMPTY_MASK, EMPTY_SHIFT};
+const argument_t rd_u = {EMPTY_MASK, EMPTY_SHIFT, 0, 0};
+const argument_t rs_u = {EMPTY_MASK, EMPTY_SHIFT, 0, 0};
+const argument_t rb_u = {EMPTY_MASK, EMPTY_SHIFT, 0, 0};
+const argument_t imm_u = {EMPTY_MASK, EMPTY_SHIFT, EMPTY_SIGNMASK, EMPTY_SIGNEXT};
 
 insn_descr_t opcodes[] = {
   /* {enum, name, type, rd_mask, rd_shift} */
