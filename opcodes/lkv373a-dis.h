@@ -30,6 +30,7 @@ extern "C" {
 
 int insn_arr_to_int(uint8_t *array);
 instruction_t insn_to_op_struct(uint32_t instr);
+void update_cpu(cpu_status_t *cpu, instruction_t op);
 
 #ifdef __cplusplus
 }

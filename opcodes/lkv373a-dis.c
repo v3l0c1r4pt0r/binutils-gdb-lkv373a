@@ -73,7 +73,7 @@ print_insn_lkv373a (bfd_vma memaddr, struct disassemble_info * info)
   op = insn_to_op_struct(instr);
 
   /* update state of CPU */
-  cpu->regs[0] = 0; /* dummy line to supress error */
+  update_cpu(cpu, op);
 
   /* print decoded opcode */
   switch (op.type)
@@ -89,6 +89,11 @@ print_insn_lkv373a (bfd_vma memaddr, struct disassemble_info * info)
       i = op.imm >= 0 ? op.imm : -op.imm;
       sign = ((int32_t) op.imm) >= 0 ? "":"-";
       print(fd, "%s $%d, $%d, %s0x%x", op.descr->name, op.rd, op.rs, sign, i);
+      /* only for la, print content of $rd */
+      if (op.op == la)
+      {
+        print(fd, "\t// %x", cpu->regs[op.rd]);
+      }
       break;
     case instr_type_j:
       ref_addr = op.imm * 4 + memaddr;
@@ -149,6 +154,27 @@ insn_to_op_struct(uint32_t instr)
   insn.rs = (instr & descr->rs->mask) >> descr->rs->shift;
   insn.rb = (instr & descr->rb->mask) >> descr->rb->shift;
   return insn;
+}
+
+void
+update_cpu(cpu_status_t *cpu, instruction_t op)
+{
+  cpu->regs[0] = 0; /* $0 is $zero */
+  switch (op.op)
+  {
+    case lh:
+      /* load high */
+      cpu->regs[op.rd] = (cpu->regs[op.rs] + op.imm) << 16;
+      break;
+    case la:
+      /* load address / xor */
+      cpu->regs[op.rd] = cpu->regs[op.rs] ^ (op.imm & IMM_I_MASK);
+      /* sign extension is discarded */
+      break;
+    default:
+      /* there is not much, we can do */
+      ;
+  }
 }
 
 /* extraction params for R-type instructions */
