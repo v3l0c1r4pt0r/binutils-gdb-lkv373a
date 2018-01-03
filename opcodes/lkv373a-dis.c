@@ -92,7 +92,16 @@ print_insn_lkv373a (bfd_vma memaddr, struct disassemble_info * info)
       /* only for la, print content of $rd */
       if (op.op == la)
       {
-        print(fd, "\t// %x", cpu->regs[op.rd]);
+        ref_addr = cpu->regs[op.rd];
+        if (info->symbol_at_address_func(ref_addr, info))
+        {
+          print(fd, "\t// ");
+          info->print_address_func(ref_addr, info);
+        }
+        else
+        {
+          print(fd, "\t// %x", ref_addr);
+        }
       }
       break;
     case instr_type_j:
