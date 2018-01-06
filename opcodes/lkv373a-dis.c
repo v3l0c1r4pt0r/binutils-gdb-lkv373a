@@ -36,6 +36,44 @@
 int
 print_insn_lkv373a (bfd_vma memaddr, struct disassemble_info * info)
 {
+  if (info->section->flags & SEC_DATA && 1/*TODO: check getopt? */)
+  {
+    /* it is data section, let's try to display data, this not how standard
+     * objdump behaves, so must be optional behavior */
+    return print_data_lkv373a(memaddr, info);
+  }
+  else
+  {
+    /* we can assume, this is text section */
+    return print_text_lkv373a(memaddr, info);
+  }
+}
+
+int
+print_data_lkv373a (bfd_vma memaddr, struct disassemble_info * info)
+{
+  fprintf_ftype       print = info->fprintf_func;
+  void *              fd = info->stream;
+  uint8_t             instr_buf[4];
+  uint32_t            instr;
+  int                 err = 0;
+
+  /* read, convert to int and parse instruction */
+  err = info->read_memory_func(memaddr, instr_buf, 4, info);
+  if (err != 0)
+  {
+    info->memory_error_func(err, memaddr, info);
+  }
+  instr = insn_arr_to_int(instr_buf);
+
+  print(fd, "%s 0x%04X", ".dword", (instr));
+
+  return 4;
+}
+
+int
+print_text_lkv373a (bfd_vma memaddr, struct disassemble_info * info)
+{
   fprintf_ftype       print = info->fprintf_func;
   void *              fd = info->stream;
   uint8_t             instr_buf[4];

@@ -28,6 +28,8 @@ extern "C" {
 
 #include "lkv373a-opc.h"
 
+int print_text_lkv373a (bfd_vma memaddr, struct disassemble_info * info);
+int print_data_lkv373a (bfd_vma memaddr, struct disassemble_info * info);
 int insn_arr_to_int(uint8_t *array);
 instruction_t insn_to_op_struct(uint32_t instr);
 void update_cpu(cpu_status_t *cpu, instruction_t op);
