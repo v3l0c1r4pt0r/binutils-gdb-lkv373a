@@ -247,28 +247,28 @@ insn_descr_t opcodes[] = {
   /* 20 */ {op_20, "res20", first_invalid_type, &rd_u, &rs_u, &rb_u, &imm_u},
   /* 21 */ {lw,    "lw",    instr_type_r,       &rd_r, &rs_r, &rb_r, &imm_r},
   /* 22 */ {op_22, "res22", first_invalid_type, &rd_u, &rs_u, &rb_u, &imm_u},
-  /* 23 */ {op_23, "unk23", instr_type_r,       &rd_r, &rs_r, &rb_r, &imm_r},
-  /* 24 */ {op_24, "unk24", instr_type_i,       &rd_i, &rs_i, &rb_i, &imm_i},
-  /* 25 */ {op_25, "unk25", instr_type_i,       &rd_i, &rs_i, &rb_i, &imm_i},
+  /* 23 */ {op_23, "unk23", instr_type_r,       &rd_r, &rs_r, &rb_r, &imm_r}, /* .b */
+  /* 24 */ {op_24, "unk24", instr_type_i,       &rd_i, &rs_i, &rb_i, &imm_i}, /* .b */
+  /* 25 */ {op_25, "unk25", instr_type_i,       &rd_i, &rs_i, &rb_i, &imm_i}, /* .s */
   /* 26 */ {op_26, "unk26", instr_type_i,       &rd_i, &rs_i, &rb_i, &imm_i},
-  /* 27 */ {mov,   "mov",   instr_type_i,       &rd_i, &rs_i, &rb_i, &imm_i},
+  /* 27 */ {mov,   "mov",   instr_type_i,       &rd_i, &rs_i, &rb_i, &imm_i}, /* .l */
   /* 28 */ {op_28, "res28", first_invalid_type, &rd_u, &rs_u, &rb_u, &imm_u},
-  /* 29 */ {op_29, "unk29", instr_type_r,       &rd_r, &rs_r, &rb_r, &imm_r},
+  /* 29 */ {op_29, "unk29", instr_type_r,       &rd_r, &rs_r, &rb_r, &imm_r}, /* .mask */
   /* 2a */ {la,    "la",    instr_type_i,       &rd_i, &rs_i, &rb_i, &imm_i},
   /* 2b */ {op_2b, "unk2B", instr_type_i,       &rd_i, &rs_i, &rb_i, &imm_i},
   /* 2c */ {op_2c, "res2C", first_invalid_type, &rd_u, &rs_u, &rb_u, &imm_u},
   /* 2d */ {op_2d, "unk2D", instr_type_i,       &rd_i, &rs_i, &rb_i, &imm_i},
-  /* 2e */ {op_2e, "unk2E", instr_type_i,       &rd_i, &rs_i, &rb_i, &imm_i},
-  /* 2f */ {cmp,   "cmp",   instr_type_i,       &rd_i, &rs_i, &rb_i, &imm_i},
+  /* 2e */ {op_2e, "unk2E", instr_type_i,       &rd_i, &rs_i, &rb_i, &imm_i}, /* .b */
+  /* 2f */ {cmp,   "cmp",   instr_type_i,       &rd_i, &rs_i, &rb_i, &imm_i}, /* .b */
   /* 30 */ {op_30, "unk30", instr_type_r,       &rd_r, &rs_r, &rb_r, &imm_r},
-  /* 31 */ {op_31, "unk31", instr_type_r,       &rd_r, &rs_r, &rb_r, &imm_r},
+  /* 31 */ {op_31, "unk31", instr_type_r,       &rd_r, &rs_r, &rb_r, &imm_r}, /* .mask */
   /* 32 */ {op_32, "res32", first_invalid_type, &rd_u, &rs_u, &rb_u, &imm_u},
   /* 33 */ {op_33, "res33", first_invalid_type, &rd_u, &rs_u, &rb_u, &imm_u},
   /* 34 */ {op_34, "res34", first_invalid_type, &rd_u, &rs_u, &rb_u, &imm_u},
-  /* 35 */ {sw,    "sw",    instr_type_r,       &rd_r, &rs_r, &rb_r, &imm_r},
-  /* 36 */ {op_36, "sb",    instr_type_r,       &rd_r, &rs_r, &rb_r, &imm_r},
-  /* 37 */ {op_37, "unk37", instr_type_r,       &rd_r, &rs_r, &rb_r, &imm_r},
-  /* 38 */ {op_38, "unk38", instr_type_r,       &rd_r, &rs_r, &rb_r, &imm_r},
+  /* 35 */ {sw,    "sw",    instr_type_r,       &rd_r, &rs_r, &rb_r, &imm_r}, /* .l */
+  /* 36 */ {op_36, "sb",    instr_type_r,       &rd_r, &rs_r, &rb_r, &imm_r}, /* .b */
+  /* 37 */ {op_37, "unk37", instr_type_r,       &rd_r, &rs_r, &rb_r, &imm_r}, /* .s */
+  /* 38 */ {op_38, "unk38", instr_type_r,       &rd_r, &rs_r, &rb_r, &imm_r}, /* .b */
   /* 39 */ {op_39, "unk39", instr_type_r,       &rd_r, &rs_r, &rb_r, &imm_r},
   /* 3a */ {op_3a, "res3A", first_invalid_type, &rd_u, &rs_u, &rb_u, &imm_u},
   /* 3b */ {op_3b, "res3B", first_invalid_type, &rd_u, &rs_u, &rb_u, &imm_u},
